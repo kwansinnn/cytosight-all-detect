@@ -74,7 +74,7 @@ export function AppSidebar() {
         >
           <div className="w-10 h-10 rounded-lg overflow-hidden">
             <img 
-              src="/lovable-uploads/2bfd87c8-402f-4b8f-9ba3-2656c8e4ec9b.png" 
+              src="/lovable-uploads/cd976248-accf-4552-b4d9-5442b513de59.png" 
               alt="CytoSight Logo" 
               className="w-full h-full object-contain"
             />
