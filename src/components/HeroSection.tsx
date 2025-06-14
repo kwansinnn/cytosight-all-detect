@@ -1,27 +1,32 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Upload, Brain, Users, BarChart3 } from "lucide-react";
+import { AuthModal } from "@/components/AuthModal";
 
 const HeroSection = () => {
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+
   return (
-    <section className="py-20 px-4">
-      <div className="container mx-auto text-center">
-        <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
-          Advanced Cell Image 
-          <span className="text-primary"> Analysis</span>
-        </h1>
-        <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-          Harness the power of AI to analyze cell images with precision. Upload, classify, and collaborate with medical professionals worldwide.
-        </p>
-        
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-          <Button size="lg" className="px-8">
-            Start Analysis
-          </Button>
-          <Button variant="outline" size="lg" className="px-8">
-            View Demo
-          </Button>
-        </div>
+    <>
+      <section className="py-20 px-4">
+        <div className="container mx-auto text-center">
+          <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
+            Advanced Cell Image 
+            <span className="text-primary"> Analysis</span>
+          </h1>
+          <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+            Harness the power of AI to analyze cell images with precision. Upload, classify, and collaborate with medical professionals worldwide.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            <Button size="lg" className="px-8" onClick={() => setAuthModalOpen(true)}>
+              Start Analysis
+            </Button>
+            <Button variant="outline" size="lg" className="px-8" onClick={() => setAuthModalOpen(true)}>
+              View Demo
+            </Button>
+          </div>
 
         <div className="grid md:grid-cols-3 gap-8 mt-16">
           <Card className="p-6 text-center hover:shadow-lg transition-shadow">
@@ -56,6 +61,8 @@ const HeroSection = () => {
         </div>
       </div>
     </section>
+    <AuthModal open={authModalOpen} onOpenChange={setAuthModalOpen} />
+    </>
   );
 };
 
