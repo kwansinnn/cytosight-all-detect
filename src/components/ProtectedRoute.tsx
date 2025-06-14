@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import AuthModal from './AuthModal';
 
@@ -9,6 +10,14 @@ interface ProtectedRouteProps {
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { user, loading } = useAuth();
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const navigate = useNavigate();
+
+  const handleAuthModalClose = (open: boolean) => {
+    setShowAuthModal(open);
+    if (!open) {
+      navigate('/');
+    }
+  };
 
   useEffect(() => {
     if (!loading && !user) {
@@ -42,7 +51,7 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
         </div>
         <AuthModal 
           open={showAuthModal} 
-          onOpenChange={setShowAuthModal}
+          onOpenChange={handleAuthModalClose}
         />
       </>
     );
