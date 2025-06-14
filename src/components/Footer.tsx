@@ -50,7 +50,7 @@ const Footer = () => {
 
         <div className="border-t border-border mt-8 pt-8 text-center">
           <p className="text-muted-foreground text-sm">
-            © 2024 CytoSight. All rights reserved. | Designed for medical professionals.
+            © 2025 CytoSight. All rights reserved. | Designed for medical professionals.
           </p>
         </div>
       </div>

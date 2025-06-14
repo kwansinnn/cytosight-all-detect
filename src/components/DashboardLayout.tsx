@@ -96,7 +96,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           <footer className="border-t bg-background p-4">
             <div className="container mx-auto flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
               <div className="flex items-center space-x-4">
-                <p>&copy; 2024 CytoSight. All rights reserved.</p>
+                <p>&copy; 2025 CytoSight. All rights reserved.</p>
               </div>
               <div className="flex items-center space-x-4 mt-2 md:mt-0">
                 <a href="#" className="hover:text-foreground transition-colors">
