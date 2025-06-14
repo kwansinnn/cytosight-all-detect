@@ -13,7 +13,7 @@ export function useDiscussionComments(threadId: string, initialComments: any[] =
         .from('discussion_comments')
         .select(`
           *,
-          profiles!discussion_comments_user_id_fkey (
+          profiles!user_id (
             full_name,
             avatar_url
           )
@@ -43,7 +43,7 @@ export function useDiscussionComments(threadId: string, initialComments: any[] =
         })
         .select(`
           *,
-          profiles!discussion_comments_user_id_fkey (
+          profiles!user_id (
             full_name,
             avatar_url
           )

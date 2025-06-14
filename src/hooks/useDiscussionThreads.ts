@@ -13,7 +13,7 @@ export function useDiscussionThreads() {
         .from('discussion_threads')
         .select(`
           *,
-          profiles!discussion_threads_user_id_fkey (
+          profiles!user_id (
             full_name,
             avatar_url
           ),
@@ -22,7 +22,7 @@ export function useDiscussionThreads() {
             content,
             created_at,
             user_id,
-            profiles!discussion_comments_user_id_fkey (
+            profiles!user_id (
               full_name,
               avatar_url
             )
@@ -57,7 +57,7 @@ export function useDiscussionThreads() {
       })
       .select(`
         *,
-        profiles!discussion_threads_user_id_fkey (
+        profiles!user_id (
           full_name,
           avatar_url
         ),
@@ -66,7 +66,7 @@ export function useDiscussionThreads() {
           content,
           created_at,
           user_id,
-          profiles!discussion_comments_user_id_fkey (
+          profiles!user_id (
             full_name,
             avatar_url
           )

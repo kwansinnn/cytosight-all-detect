@@ -19,7 +19,7 @@ export function useFavoriteThreads() {
         .select(`
           discussion_threads (
             *,
-            profiles!discussion_threads_user_id_fkey (
+            profiles!user_id (
               full_name,
               avatar_url
             ),
@@ -28,7 +28,7 @@ export function useFavoriteThreads() {
               content,
               created_at,
               user_id,
-              profiles!discussion_comments_user_id_fkey (
+              profiles!user_id (
                 full_name,
                 avatar_url
               )
