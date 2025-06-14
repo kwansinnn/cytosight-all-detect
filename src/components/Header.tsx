@@ -2,23 +2,20 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Microscope, Menu, User, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { AuthModal } from "@/components/AuthModal";
-import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import AuthModal from "./AuthModal";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Header = () => {
   const { user, signOut } = useAuth();
   const [authModalOpen, setAuthModalOpen] = useState(false);
-  const navigate = useNavigate();
 
   const handleSignOut = async () => {
-    try {
-      await signOut();
-      toast.success('Signed out successfully');
-      navigate('/');
-    } catch (error: any) {
-      toast.error('Error signing out');
-    }
+    await signOut();
   };
 
   return (
@@ -29,7 +26,7 @@ const Header = () => {
             <Button variant="ghost" size="icon" className="md:hidden">
               <Menu className="h-5 w-5" />
             </Button>
-            <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigate('/')}>
+            <div className="flex items-center space-x-2">
               <div className="p-2 bg-primary rounded-lg">
                 <Microscope className="h-6 w-6 text-primary-foreground" />
               </div>
@@ -39,38 +36,49 @@ const Header = () => {
           
           {user && (
             <nav className="hidden md:flex items-center space-x-6">
-              <button 
-                onClick={() => navigate('/')}
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
+              <a href="/dashboard" className="text-muted-foreground hover:text-foreground transition-colors">
                 Dashboard
-              </button>
-              <button 
-                onClick={() => navigate('/history')}
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                History
-              </button>
+              </a>
+              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                Analysis
+              </a>
+              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                Discussions
+              </a>
+              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                Reports
+              </a>
             </nav>
           )}
 
           <div className="flex items-center space-x-4">
             {user ? (
-              <>
-                <span className="text-sm text-muted-foreground hidden md:block">
-                  {user.email}
-                </span>
-                <Button variant="ghost" size="sm" onClick={handleSignOut}>
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Sign Out
-                </Button>
-              </>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <User className="h-5 w-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={handleSignOut}>
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <>
-                <Button variant="ghost" size="sm" onClick={() => setAuthModalOpen(true)}>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={() => setAuthModalOpen(true)}
+                >
                   Sign In
                 </Button>
-                <Button size="sm" onClick={() => setAuthModalOpen(true)}>
+                <Button 
+                  size="sm"
+                  onClick={() => setAuthModalOpen(true)}
+                >
                   Get Started
                 </Button>
               </>
@@ -78,7 +86,11 @@ const Header = () => {
           </div>
         </div>
       </header>
-      <AuthModal open={authModalOpen} onOpenChange={setAuthModalOpen} />
+      
+      <AuthModal 
+        open={authModalOpen} 
+        onOpenChange={setAuthModalOpen}
+      />
     </>
   );
 };

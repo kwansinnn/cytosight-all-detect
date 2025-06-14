@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Upload, Brain, Users, BarChart3 } from "lucide-react";
-import { AuthModal } from "@/components/AuthModal";
+import AuthModal from "@/components/AuthModal";
 
 const HeroSection = () => {
   const [authModalOpen, setAuthModalOpen] = useState(false);
