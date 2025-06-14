@@ -10,6 +10,11 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 const Header = () => {
   const { user, signOut } = useAuth();
@@ -24,9 +29,45 @@ const Header = () => {
       <header className="bg-card border-b border-border sticky top-0 z-50">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="icon" className="md:hidden">
-              <Menu className="h-5 w-5" />
-            </Button>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="md:hidden">
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-[300px] sm:w-[400px]">
+                <nav className="flex flex-col space-y-4 mt-8">
+                  {user ? (
+                    <>
+                      <a href="/dashboard" className="text-foreground hover:text-primary transition-colors py-2 px-4 rounded-md hover:bg-accent">
+                        Dashboard
+                      </a>
+                      <a href="#" className="text-foreground hover:text-primary transition-colors py-2 px-4 rounded-md hover:bg-accent">
+                        Analysis
+                      </a>
+                      <a href="/collaboration" className="text-foreground hover:text-primary transition-colors py-2 px-4 rounded-md hover:bg-accent">
+                        Collaboration
+                      </a>
+                      <a href="#" className="text-foreground hover:text-primary transition-colors py-2 px-4 rounded-md hover:bg-accent">
+                        Reports
+                      </a>
+                      <a href="#" className="text-foreground hover:text-primary transition-colors py-2 px-4 rounded-md hover:bg-accent">
+                        History
+                      </a>
+                    </>
+                  ) : (
+                    <>
+                      <a href="#" className="text-foreground hover:text-primary transition-colors py-2 px-4 rounded-md hover:bg-accent">
+                        About
+                      </a>
+                      <a href="#" className="text-foreground hover:text-primary transition-colors py-2 px-4 rounded-md hover:bg-accent">
+                        Contact
+                      </a>
+                    </>
+                  )}
+                </nav>
+              </SheetContent>
+            </Sheet>
             <div 
               className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity"
               onClick={() => window.location.href = '/'}

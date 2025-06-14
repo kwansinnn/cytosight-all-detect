@@ -6,8 +6,6 @@ import HeroSection from "@/components/HeroSection";
 import AnalysisSection from "@/components/AnalysisSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import Footer from "@/components/Footer";
-import IndexSidebar from "@/components/IndexSidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 const Index = () => {
   const { user, loading } = useAuth();
@@ -31,21 +29,13 @@ const Index = () => {
   }
 
   return (
-    <SidebarProvider>
-      <div className="min-h-screen bg-background flex w-full">
-        <IndexSidebar />
-        <main className="flex-1">
-          <div className="sticky top-0 z-50 bg-card border-b border-border p-2">
-            <SidebarTrigger />
-          </div>
-          <Header />
-          <HeroSection />
-          <AnalysisSection />
-          <FeaturesSection />
-          <Footer />
-        </main>
-      </div>
-    </SidebarProvider>
+    <div className="min-h-screen bg-background">
+      <Header />
+      <HeroSection />
+      <AnalysisSection />
+      <FeaturesSection />
+      <Footer />
+    </div>
   );
 };
 
