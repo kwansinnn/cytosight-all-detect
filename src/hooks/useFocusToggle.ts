@@ -3,18 +3,18 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 
-export function useFavoriteToggle(threadId: string) {
-  const [isFavorited, setIsFavorited] = useState(false);
+export function useFocusToggle(threadId: string) {
+  const [isFocused, setIsFocused] = useState(false);
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
 
-  const checkFavoriteStatus = async () => {
+  const checkFocusStatus = async () => {
     if (!user) return;
 
     try {
       const { data, error } = await supabase
-        .from('discussion_favorites')
+        .from('discussion_focus')
         .select('id')
         .eq('user_id', user.id)
         .eq('thread_id', threadId)
@@ -24,17 +24,17 @@ export function useFavoriteToggle(threadId: string) {
         throw error;
       }
 
-      setIsFavorited(!!data);
+      setIsFocused(!!data);
     } catch (error) {
-      console.error('Error checking favorite status:', error);
+      console.error('Error checking focus status:', error);
     }
   };
 
-  const toggleFavorite = async () => {
+  const toggleFocus = async () => {
     if (!user) {
       toast({
         title: "Authentication Required",
-        description: "Please sign in to favorite collaborations",
+        description: "Please sign in to focus on collaborations",
         variant: "destructive",
       });
       return;
@@ -43,33 +43,33 @@ export function useFavoriteToggle(threadId: string) {
     setLoading(true);
 
     try {
-      if (isFavorited) {
-        // Remove from favorites
+      if (isFocused) {
+        // Remove from focus
         const { error } = await supabase
-          .from('discussion_favorites')
+          .from('discussion_focus')
           .delete()
           .eq('user_id', user.id)
           .eq('thread_id', threadId);
 
         if (error) throw error;
-        setIsFavorited(false);
+        setIsFocused(false);
       } else {
-        // Add to favorites
+        // Add to focus
         const { error } = await supabase
-          .from('discussion_favorites')
+          .from('discussion_focus')
           .insert({
             user_id: user.id,
             thread_id: threadId,
           });
 
         if (error) throw error;
-        setIsFavorited(true);
+        setIsFocused(true);
       }
     } catch (error: any) {
-      console.error('Error toggling favorite:', error);
+      console.error('Error toggling focus:', error);
       toast({
         title: "Error",
-        description: "Failed to update favorite status",
+        description: "Failed to update focus status",
         variant: "destructive",
       });
     } finally {
@@ -78,12 +78,12 @@ export function useFavoriteToggle(threadId: string) {
   };
 
   useEffect(() => {
-    checkFavoriteStatus();
+    checkFocusStatus();
   }, [user, threadId]);
 
   return {
-    isFavorited,
+    isFocused,
     loading,
-    toggleFavorite,
+    toggleFocus,
   };
 }

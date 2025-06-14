@@ -27,7 +27,7 @@ export function useDiscussionThreads() {
               avatar_url
             )
           ),
-          discussion_favorites (
+          discussion_focus (
             user_id
           )
         `)
@@ -71,7 +71,7 @@ export function useDiscussionThreads() {
             avatar_url
           )
         ),
-        discussion_favorites (
+        discussion_focus (
           user_id
         )
       `)

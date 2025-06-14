@@ -6,12 +6,12 @@ import { Plus } from 'lucide-react';
 import { CreateThreadDialog } from '@/components/discussion/CreateThreadDialog';
 import { DiscussionThread } from '@/components/discussion/DiscussionThread';
 import { useDiscussionThreads } from '@/hooks/useDiscussionThreads';
-import { useFavoriteThreads } from '@/hooks/useFavoriteThreads';
+import { useFocusThreads } from '@/hooks/useFocusThreads';
 
 const Collaboration = () => {
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const { threads, loading, createThread } = useDiscussionThreads();
-  const { favoriteThreads, loading: favoritesLoading } = useFavoriteThreads();
+  const { focusThreads, loading: focusLoading } = useFocusThreads();
 
   const handleCreateThread = async (data: any) => {
     await createThread(data);
@@ -50,7 +50,7 @@ const Collaboration = () => {
         <Tabs defaultValue="all" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="all">All Collaborations</TabsTrigger>
-            <TabsTrigger value="favorites">My Favorites</TabsTrigger>
+            <TabsTrigger value="focus">My Focus</TabsTrigger>
           </TabsList>
 
           <TabsContent value="all" className="mt-6">
@@ -70,22 +70,22 @@ const Collaboration = () => {
             </div>
           </TabsContent>
 
-          <TabsContent value="favorites" className="mt-6">
+          <TabsContent value="focus" className="mt-6">
             <div className="space-y-6">
-              {favoritesLoading ? (
+              {focusLoading ? (
                 <div className="text-center py-8">
                   <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mx-auto mb-4"></div>
-                  <p className="text-muted-foreground">Loading favorites...</p>
+                  <p className="text-muted-foreground">Loading focus...</p>
                 </div>
-              ) : favoriteThreads.length === 0 ? (
+              ) : focusThreads.length === 0 ? (
                 <div className="text-center py-12">
-                  <p className="text-muted-foreground">No favorite collaborations yet</p>
+                  <p className="text-muted-foreground">No focus collaborations yet</p>
                   <p className="text-sm text-muted-foreground mt-2">
-                    Star collaborations to add them to your favorites
+                    Star collaborations to add them to your focus
                   </p>
                 </div>
               ) : (
-                favoriteThreads.map((thread) => (
+                focusThreads.map((thread) => (
                   <DiscussionThread key={thread.id} thread={thread} />
                 ))
               )}

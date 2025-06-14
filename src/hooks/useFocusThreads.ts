@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 
-export function useFavoriteThreads() {
-  const [favoriteThreads, setFavoriteThreads] = useState<any[]>([]);
+export function useFocusThreads() {
+  const [focusThreads, setFocusThreads] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
 
-  const fetchFavoriteThreads = async () => {
+  const fetchFocusThreads = async () => {
     if (!user) {
       setLoading(false);
       return;
@@ -15,7 +15,7 @@ export function useFavoriteThreads() {
 
     try {
       const { data, error } = await supabase
-        .from('discussion_favorites')
+        .from('discussion_focus')
         .select(`
           discussion_threads (
             *,
@@ -33,7 +33,7 @@ export function useFavoriteThreads() {
                 avatar_url
               )
             ),
-            discussion_favorites (
+            discussion_focus (
               user_id
             )
           )
@@ -45,21 +45,21 @@ export function useFavoriteThreads() {
       
       // Extract the thread data from the nested structure
       const threads = data?.map(item => item.discussion_threads).filter(Boolean) || [];
-      setFavoriteThreads(threads);
+      setFocusThreads(threads);
     } catch (error) {
-      console.error('Error fetching favorite threads:', error);
+      console.error('Error fetching focus threads:', error);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchFavoriteThreads();
+    fetchFocusThreads();
   }, [user]);
 
   return {
-    favoriteThreads,
+    focusThreads,
     loading,
-    refetch: fetchFavoriteThreads,
+    refetch: fetchFocusThreads,
   };
 }

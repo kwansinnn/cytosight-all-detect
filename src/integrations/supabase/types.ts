@@ -51,7 +51,7 @@ export type Database = {
           },
         ]
       }
-      discussion_favorites: {
+      discussion_focus: {
         Row: {
           created_at: string
           id: string
@@ -72,14 +72,14 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "discussion_favorites_thread_id_fkey"
+            foreignKeyName: "discussion_focus_thread_id_fkey"
             columns: ["thread_id"]
             isOneToOne: false
             referencedRelation: "discussion_threads"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "discussion_favorites_user_id_fkey"
+            foreignKeyName: "discussion_focus_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"

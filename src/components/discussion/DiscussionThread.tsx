@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Star, MessageCircle, Calendar, User } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { useAuth } from '@/contexts/AuthContext';
-import { useFavoriteToggle } from '@/hooks/useFavoriteToggle';
+import { useFocusToggle } from '@/hooks/useFocusToggle';
 import { DiscussionComments } from './DiscussionComments';
 
 interface DiscussionThreadProps {
@@ -31,7 +31,7 @@ interface DiscussionThreadProps {
         avatar_url?: string;
       };
     }>;
-    discussion_favorites?: Array<{
+    discussion_focus?: Array<{
       user_id: string;
     }>;
   };
@@ -40,7 +40,7 @@ interface DiscussionThreadProps {
 export function DiscussionThread({ thread }: DiscussionThreadProps) {
   const [showComments, setShowComments] = useState(false);
   const { user } = useAuth();
-  const { isFavorited, toggleFavorite } = useFavoriteToggle(thread.id);
+  const { isFocused, toggleFocus } = useFocusToggle(thread.id);
 
   const getInitials = (name?: string) => {
     if (!name) return 'U';
@@ -53,7 +53,7 @@ export function DiscussionThread({ thread }: DiscussionThreadProps) {
   };
 
   const commentCount = thread.discussion_comments?.length || 0;
-  const favoriteCount = thread.discussion_favorites?.length || 0;
+  const focusCount = thread.discussion_focus?.length || 0;
 
   return (
     <Card className="w-full">
@@ -78,18 +78,18 @@ export function DiscussionThread({ thread }: DiscussionThreadProps) {
           </div>
           
           <div className="flex items-center space-x-2">
-            {favoriteCount > 0 && (
+            {focusCount > 0 && (
               <Badge variant="secondary" className="text-xs">
-                {favoriteCount} {favoriteCount === 1 ? 'star' : 'stars'}
+                {focusCount} {focusCount === 1 ? 'star' : 'stars'}
               </Badge>
             )}
             <Button
               variant="ghost"
               size="sm"
-              onClick={toggleFavorite}
-              className={isFavorited ? 'text-yellow-500' : ''}
+              onClick={toggleFocus}
+              className={isFocused ? 'text-yellow-500' : ''}
             >
-              <Star className={`h-4 w-4 ${isFavorited ? 'fill-current' : ''}`} />
+              <Star className={`h-4 w-4 ${isFocused ? 'fill-current' : ''}`} />
             </Button>
           </div>
         </div>
