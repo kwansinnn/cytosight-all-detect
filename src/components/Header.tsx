@@ -33,8 +33,8 @@ const Header = () => {
             >
               <div className="w-8 h-8 rounded-lg overflow-hidden">
                 <img 
-                  src="/lovable-uploads/a52e9727-e953-466a-bcf3-6c44855a2876.png" 
-                  alt="CytoSight Logo" 
+                  src="/lovable-uploads/cd976248-accf-4552-b4d9-5442b513de59.png" 
+                  alt="CytoSight Logo"
                   className="w-full h-full object-contain"
                 />
               </div>
