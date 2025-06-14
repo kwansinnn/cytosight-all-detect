@@ -4,7 +4,6 @@ import {
   Upload, 
   History, 
   Settings, 
-  Microscope,
   BarChart3,
   FileText 
 } from 'lucide-react';
@@ -64,8 +63,12 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarHeader className="p-4">
         <div className="flex items-center space-x-2">
-          <div className="p-2 bg-primary rounded-lg">
-            <Microscope className="h-6 w-6 text-primary-foreground" />
+          <div className="w-10 h-10 rounded-lg overflow-hidden">
+            <img 
+              src="/lovable-uploads/eba88279-3c71-4e4f-b07e-320508a5e31f.png" 
+              alt="CytoSight Logo" 
+              className="w-full h-full object-contain"
+            />
           </div>
           <div>
             <h1 className="text-lg font-bold text-foreground">CytoSight</h1>
