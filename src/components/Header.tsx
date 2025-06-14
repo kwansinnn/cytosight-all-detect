@@ -27,7 +27,10 @@ const Header = () => {
             <Button variant="ghost" size="icon" className="md:hidden">
               <Menu className="h-5 w-5" />
             </Button>
-            <div className="flex items-center space-x-2">
+            <div 
+              className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity"
+              onClick={() => window.location.href = '/'}
+            >
               <div className="w-8 h-8 rounded-lg overflow-hidden">
                 <img 
                   src="/lovable-uploads/a52e9727-e953-466a-bcf3-6c44855a2876.png" 
@@ -35,7 +38,10 @@ const Header = () => {
                   className="w-full h-full object-contain"
                 />
               </div>
-              <h1 className="text-xl font-bold text-foreground">CytoSight</h1>
+              <div>
+                <h1 className="text-xl font-bold text-foreground">CytoSight</h1>
+                <p className="text-xs text-muted-foreground">Cell Analysis Platform</p>
+              </div>
             </div>
           </div>
           
