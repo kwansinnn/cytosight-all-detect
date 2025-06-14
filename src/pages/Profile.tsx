@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
+import { DashboardLayout } from '@/components/DashboardLayout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -107,7 +108,7 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <DashboardLayout>
       <div className="container mx-auto px-4 py-8 max-w-2xl">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-2">Profile Settings</h1>
@@ -240,7 +241,7 @@ const Profile = () => {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </DashboardLayout>
   );
 };
 

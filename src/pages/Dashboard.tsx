@@ -1,5 +1,6 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { useUploads } from '@/hooks/useUploads';
+import { DashboardLayout } from '@/components/DashboardLayout';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import UploadSection from '@/components/dashboard/UploadSection';
 import AnalysisHistory from '@/components/dashboard/AnalysisHistory';
@@ -10,23 +11,25 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading your dashboard...</p>
+      <DashboardLayout>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading your dashboard...</p>
+          </div>
         </div>
-      </div>
+      </DashboardLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <DashboardLayout>
       <div className="container mx-auto px-4 py-8">
         <DashboardHeader />
         <UploadSection onUploadComplete={addUpload} />
         <AnalysisHistory uploads={uploads} />
       </div>
-    </div>
+    </DashboardLayout>
   );
 };
 
