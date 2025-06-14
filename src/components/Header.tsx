@@ -30,7 +30,7 @@ const Header = () => {
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 rounded-lg overflow-hidden">
                 <img 
-                  src="/lovable-uploads/2bfd87c8-402f-4b8f-9ba3-2656c8e4ec9b.png" 
+                  src="/lovable-uploads/a52e9727-e953-466a-bcf3-6c44855a2876.png" 
                   alt="CytoSight Logo" 
                   className="w-full h-full object-contain"
                 />
