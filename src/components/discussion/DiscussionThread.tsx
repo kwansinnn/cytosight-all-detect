@@ -3,11 +3,13 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Star, MessageCircle, Calendar, User } from 'lucide-react';
+import { Star, MessageCircle, Calendar, User, Trash2 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { useAuth } from '@/contexts/AuthContext';
 import { useFocusToggle } from '@/hooks/useFocusToggle';
 import { DiscussionComments } from './DiscussionComments';
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 interface DiscussionThreadProps {
   thread: {
@@ -35,12 +37,15 @@ interface DiscussionThreadProps {
       user_id: string;
     }>;
   };
+  onDelete?: () => void;
 }
 
-export function DiscussionThread({ thread }: DiscussionThreadProps) {
+export function DiscussionThread({ thread, onDelete }: DiscussionThreadProps) {
   const [showComments, setShowComments] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const { user } = useAuth();
   const { isFocused, toggleFocus } = useFocusToggle(thread.id);
+  const { toast } = useToast();
 
   const getInitials = (name?: string) => {
     if (!name) return 'U';
@@ -50,6 +55,45 @@ export function DiscussionThread({ thread }: DiscussionThreadProps) {
       .join('')
       .toUpperCase()
       .slice(0, 2);
+  };
+
+  const handleDelete = async () => {
+    if (!user || user.id !== thread.user_id) {
+      toast({
+        title: "Not Authorized",
+        description: "You can only delete your own collaborations",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsDeleting(true);
+
+    try {
+      const { error } = await supabase
+        .from('discussion_threads')
+        .delete()
+        .eq('id', thread.id)
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Collaboration Deleted",
+        description: "The collaboration has been successfully deleted",
+      });
+
+      onDelete?.();
+    } catch (error: any) {
+      console.error('Error deleting thread:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete collaboration",
+        variant: "destructive",
+      });
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   const commentCount = thread.discussion_comments?.length || 0;
@@ -91,6 +135,17 @@ export function DiscussionThread({ thread }: DiscussionThreadProps) {
             >
               <Star className={`h-4 w-4 ${isFocused ? 'fill-current' : ''}`} />
             </Button>
+            {user && user.id === thread.user_id && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleDelete}
+                disabled={isDeleting}
+                className="text-destructive hover:text-destructive"
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            )}
           </div>
         </div>
       </CardHeader>

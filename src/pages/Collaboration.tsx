@@ -18,6 +18,11 @@ const Collaboration = () => {
     setShowCreateDialog(false);
   };
 
+  const handleDeleteThread = () => {
+    // Refetch threads to update the list after deletion
+    window.location.reload();
+  };
+
   if (loading) {
     return (
       <DashboardLayout>
@@ -64,7 +69,7 @@ const Collaboration = () => {
                 </div>
               ) : (
                 threads.map((thread) => (
-                  <DiscussionThread key={thread.id} thread={thread} />
+                  <DiscussionThread key={thread.id} thread={thread} onDelete={handleDeleteThread} />
                 ))
               )}
             </div>
@@ -86,7 +91,7 @@ const Collaboration = () => {
                 </div>
               ) : (
                 focusThreads.map((thread) => (
-                  <DiscussionThread key={thread.id} thread={thread} />
+                  <DiscussionThread key={thread.id} thread={thread} onDelete={handleDeleteThread} />
                 ))
               )}
             </div>
