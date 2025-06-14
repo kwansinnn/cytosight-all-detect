@@ -45,22 +45,33 @@ const Header = () => {
             </div>
           </div>
           
-          {user && (
-            <nav className="hidden md:flex items-center space-x-6">
-              <a href="/dashboard" className="text-muted-foreground hover:text-foreground transition-colors">
-                Dashboard
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                Analysis
-              </a>
-              <a href="/collaboration" className="text-muted-foreground hover:text-foreground transition-colors">
-                Collaboration
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                Reports
-              </a>
-            </nav>
-          )}
+          <nav className="hidden md:flex items-center space-x-6">
+            {user ? (
+              <>
+                <a href="/dashboard" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Dashboard
+                </a>
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Analysis
+                </a>
+                <a href="/collaboration" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Collaboration
+                </a>
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Reports
+                </a>
+              </>
+            ) : (
+              <>
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                  About
+                </a>
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Contact
+                </a>
+              </>
+            )}
+          </nav>
 
           <div className="flex items-center space-x-4">
             {user ? (
