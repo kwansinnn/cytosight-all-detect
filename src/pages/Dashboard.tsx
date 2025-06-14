@@ -17,7 +17,7 @@ interface Upload {
 }
 
 const Dashboard = () => {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const [uploads, setUploads] = useState<Upload[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -121,7 +121,7 @@ const Dashboard = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-2">
-            Welcome back, {user?.email}
+            Welcome back, {profile?.full_name || user?.email}
           </h1>
           <p className="text-muted-foreground">
             Upload and analyze your cell images with AI-powered precision
