@@ -68,7 +68,10 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader className="p-4">
-        <div className="flex items-center space-x-2">
+        <div 
+          className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity"
+          onClick={() => navigate('/')}
+        >
           <div className="w-10 h-10 rounded-lg overflow-hidden">
             <img 
               src="/lovable-uploads/eba88279-3c71-4e4f-b07e-320508a5e31f.png" 
