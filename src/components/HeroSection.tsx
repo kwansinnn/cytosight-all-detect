@@ -3,9 +3,16 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Upload, Brain, Users, BarChart3 } from "lucide-react";
 import AuthModal from "@/components/AuthModal";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const HeroSection = () => {
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [demoModalOpen, setDemoModalOpen] = useState(false);
 
   return (
     <>
@@ -23,7 +30,7 @@ const HeroSection = () => {
             <Button size="lg" className="px-8" onClick={() => setAuthModalOpen(true)}>
               Start Analysis
             </Button>
-            <Button variant="outline" size="lg" className="px-8" onClick={() => setAuthModalOpen(true)}>
+            <Button variant="outline" size="lg" className="px-8" onClick={() => setDemoModalOpen(true)}>
               View Demo
             </Button>
           </div>
@@ -62,6 +69,17 @@ const HeroSection = () => {
       </div>
     </section>
     <AuthModal open={authModalOpen} onOpenChange={setAuthModalOpen} />
+    
+    <Dialog open={demoModalOpen} onOpenChange={setDemoModalOpen}>
+      <DialogContent className="max-w-4xl">
+        <DialogHeader>
+          <DialogTitle>CytoSight Demo</DialogTitle>
+        </DialogHeader>
+        <div className="aspect-video w-full bg-muted rounded-lg flex items-center justify-center">
+          <p className="text-muted-foreground">Demo video will be embedded here</p>
+        </div>
+      </DialogContent>
+    </Dialog>
     </>
   );
 };
