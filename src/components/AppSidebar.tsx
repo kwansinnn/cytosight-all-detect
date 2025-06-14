@@ -5,7 +5,8 @@ import {
   History, 
   Settings, 
   BarChart3,
-  FileText 
+  FileText,
+  MessageSquare
 } from 'lucide-react';
 import {
   Sidebar,
@@ -31,6 +32,11 @@ const navigationItems = [
     title: "Analysis",
     url: "/analysis",
     icon: BarChart3,
+  },
+  {
+    title: "Discussion",
+    url: "/discussion",
+    icon: MessageSquare,
   },
   {
     title: "History",
