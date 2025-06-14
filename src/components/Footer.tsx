@@ -7,10 +7,17 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-8">
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center space-x-2 mb-4">
-              <div className="p-2 bg-primary rounded-lg">
-                <Microscope className="h-5 w-5 text-primary-foreground" />
+              <div className="w-8 h-8 rounded-lg overflow-hidden">
+                <img 
+                  src="/lovable-uploads/f0fd1552-86fa-4629-abd8-1837fc074dd4.png" 
+                  alt="CytoSight Logo" 
+                  className="w-full h-full object-contain"
+                />
               </div>
-              <h3 className="text-lg font-bold">CytoSight</h3>
+              <div>
+                <h3 className="text-lg font-bold">CytoSight</h3>
+                <p className="text-xs text-muted-foreground">Cell Analysis Platform</p>
+              </div>
             </div>
             <p className="text-muted-foreground text-sm">
               Advanced AI-powered cell image analysis platform for medical professionals.
