@@ -47,8 +47,8 @@ const Header = () => {
               <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                 Analysis
               </a>
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                Discussions
+              <a href="/collaboration" className="text-muted-foreground hover:text-foreground transition-colors">
+                Collaboration
               </a>
               <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                 Reports

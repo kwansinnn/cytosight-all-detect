@@ -119,13 +119,13 @@ export function CreateThreadDialog({ open, onOpenChange, onSubmit }: CreateThrea
       
       toast({
         title: "Success",
-        description: "Discussion thread created successfully!",
+        description: "Collaboration thread created successfully!",
       });
     } catch (error) {
       console.error('Error creating thread:', error);
       toast({
         title: "Error",
-        description: "Failed to create discussion thread",
+        description: "Failed to create collaboration thread",
         variant: "destructive",
       });
     } finally {
@@ -137,7 +137,7 @@ export function CreateThreadDialog({ open, onOpenChange, onSubmit }: CreateThrea
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle>Create New Discussion</DialogTitle>
+          <DialogTitle>Start New Collaboration</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -147,7 +147,7 @@ export function CreateThreadDialog({ open, onOpenChange, onSubmit }: CreateThrea
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Enter discussion title..."
+              placeholder="Enter collaboration topic..."
               disabled={uploading}
             />
           </div>
@@ -158,7 +158,7 @@ export function CreateThreadDialog({ open, onOpenChange, onSubmit }: CreateThrea
               id="content"
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              placeholder="Share your thoughts, questions, or insights..."
+              placeholder="Share case details, analysis questions, or findings..."
               rows={6}
               disabled={uploading}
             />
@@ -223,7 +223,7 @@ export function CreateThreadDialog({ open, onOpenChange, onSubmit }: CreateThrea
                   Creating...
                 </>
               ) : (
-                'Create Discussion'
+                'Start Collaboration'
               )}
             </Button>
           </div>

@@ -34,8 +34,8 @@ const navigationItems = [
     icon: BarChart3,
   },
   {
-    title: "Discussion",
-    url: "/discussion",
+    title: "Collaboration",
+    url: "/collaboration",
     icon: MessageSquare,
   },
   {

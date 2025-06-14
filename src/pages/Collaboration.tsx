@@ -8,7 +8,7 @@ import { DiscussionThread } from '@/components/discussion/DiscussionThread';
 import { useDiscussionThreads } from '@/hooks/useDiscussionThreads';
 import { useFavoriteThreads } from '@/hooks/useFavoriteThreads';
 
-const Discussion = () => {
+const Collaboration = () => {
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const { threads, loading, createThread } = useDiscussionThreads();
   const { favoriteThreads, loading: favoritesLoading } = useFavoriteThreads();
@@ -24,7 +24,7 @@ const Discussion = () => {
         <div className="flex items-center justify-center min-h-[400px]">
           <div className="text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Loading discussions...</p>
+            <p className="text-muted-foreground">Loading collaborations...</p>
           </div>
         </div>
       </DashboardLayout>
@@ -36,20 +36,20 @@ const Discussion = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Discussion Forum</h1>
+            <h1 className="text-3xl font-bold text-foreground">Team Collaboration</h1>
             <p className="text-muted-foreground mt-2">
-              Share insights, ask questions, and collaborate with the community
+              Share case insights, discuss analysis results, and collaborate with your team
             </p>
           </div>
           <Button onClick={() => setShowCreateDialog(true)}>
             <Plus className="h-4 w-4 mr-2" />
-            New Discussion
+            New Collaboration
           </Button>
         </div>
 
         <Tabs defaultValue="all" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="all">All Discussions</TabsTrigger>
+            <TabsTrigger value="all">All Collaborations</TabsTrigger>
             <TabsTrigger value="favorites">My Favorites</TabsTrigger>
           </TabsList>
 
@@ -57,9 +57,9 @@ const Discussion = () => {
             <div className="space-y-6">
               {threads.length === 0 ? (
                 <div className="text-center py-12">
-                  <p className="text-muted-foreground mb-4">No discussions yet</p>
+                  <p className="text-muted-foreground mb-4">No collaborations yet</p>
                   <Button onClick={() => setShowCreateDialog(true)}>
-                    Start the first discussion
+                    Start the first collaboration
                   </Button>
                 </div>
               ) : (
@@ -79,9 +79,9 @@ const Discussion = () => {
                 </div>
               ) : favoriteThreads.length === 0 ? (
                 <div className="text-center py-12">
-                  <p className="text-muted-foreground">No favorite discussions yet</p>
+                  <p className="text-muted-foreground">No favorite collaborations yet</p>
                   <p className="text-sm text-muted-foreground mt-2">
-                    Star discussions to add them to your favorites
+                    Star collaborations to add them to your favorites
                   </p>
                 </div>
               ) : (
@@ -103,4 +103,4 @@ const Discussion = () => {
   );
 };
 
-export default Discussion;
+export default Collaboration;

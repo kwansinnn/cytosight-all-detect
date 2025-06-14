@@ -34,7 +34,7 @@ export function useFavoriteToggle(threadId: string) {
     if (!user) {
       toast({
         title: "Authentication Required",
-        description: "Please sign in to favorite discussions",
+        description: "Please sign in to favorite collaborations",
         variant: "destructive",
       });
       return;
