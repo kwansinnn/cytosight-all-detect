@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 import {
   Dialog,
   DialogContent,
@@ -18,10 +19,55 @@ interface AuthModalProps {
 
 const AuthModal = ({ open, onOpenChange, view = 'sign_in' }: AuthModalProps) => {
   const [currentView, setCurrentView] = useState<'sign_in' | 'sign_up'>(view);
+  const { toast } = useToast();
   
   useEffect(() => {
     setCurrentView(view);
   }, [view]);
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN') {
+        onOpenChange(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [onOpenChange]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const interceptFormSubmission = () => {
+      const authContainer = document.querySelector('[data-supabase-auth-ui]');
+      if (!authContainer) return;
+
+      const form = authContainer.querySelector('form');
+      if (!form) return;
+
+      const handleSubmit = (e: Event) => {
+        const formData = new FormData(form);
+        const email = formData.get('email') as string;
+        const password = formData.get('password') as string;
+
+        if (!email || !password) {
+          e.preventDefault();
+          toast({
+            title: "Missing Information",
+            description: "Please enter both email and password",
+            variant: "destructive",
+          });
+        }
+      };
+
+      form.addEventListener('submit', handleSubmit);
+      return () => form.removeEventListener('submit', handleSubmit);
+    };
+
+    // Wait for the Auth component to render
+    const timeout = setTimeout(interceptFormSubmission, 100);
+    return () => clearTimeout(timeout);
+  }, [open, currentView, toast]);
 
   const isSignUp = currentView === 'sign_up';
   
