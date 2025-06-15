@@ -161,15 +161,68 @@ const AuthModal = ({ open, onOpenChange, view = 'sign_in' }: AuthModalProps) => 
       if (event === 'SIGNED_IN') {
         onOpenChange(false);
       }
-      
-      // Handle auth errors as fallback
-      if (event === 'SIGNED_OUT' && session === null) {
-        // This might indicate an auth error, but we'll let Supabase handle it
-      }
     });
 
     return () => subscription.unsubscribe();
   }, [onOpenChange]);
+
+  // Listen for auth errors and replace Supabase messages with custom ones
+  useEffect(() => {
+    if (!open) return;
+
+    let originalSignInWithPassword: typeof supabase.auth.signInWithPassword;
+    let originalSignUp: typeof supabase.auth.signUp;
+
+    const setupAuthErrorHandling = () => {
+      // Store original methods
+      originalSignInWithPassword = supabase.auth.signInWithPassword;
+      originalSignUp = supabase.auth.signUp;
+
+      // Override signInWithPassword to catch validation errors
+      supabase.auth.signInWithPassword = async (credentials) => {
+        const result = await originalSignInWithPassword.call(supabase.auth, credentials);
+        if (result.error && (
+          result.error.message.includes('missing email or phone') ||
+          result.error.message.includes('Invalid login credentials') ||
+          result.error.message.includes('Email not confirmed')
+        )) {
+          toast({
+            title: "Missing Information",
+            description: "Please enter both email and password",
+            variant: "destructive",
+          });
+          return { data: result.data, error: null }; // Suppress original error
+        }
+        return result;
+      };
+
+      // Override signUp to catch validation errors
+      supabase.auth.signUp = async (credentials) => {
+        const result = await originalSignUp.call(supabase.auth, credentials);
+        if (result.error && result.error.message.includes('missing email or phone')) {
+          toast({
+            title: "Missing Information", 
+            description: "Please enter both email and password",
+            variant: "destructive",
+          });
+          return { data: result.data, error: null }; // Suppress original error
+        }
+        return result;
+      };
+    };
+
+    setupAuthErrorHandling();
+
+    // Cleanup function to restore original methods
+    return () => {
+      if (originalSignInWithPassword) {
+        supabase.auth.signInWithPassword = originalSignInWithPassword;
+      }
+      if (originalSignUp) {
+        supabase.auth.signUp = originalSignUp;
+      }
+    };
+  }, [open, toast]);
 
   useEffect(() => {
     if (open) {
