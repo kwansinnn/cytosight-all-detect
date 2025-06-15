@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 import { supabase } from '@/integrations/supabase/client';
@@ -16,7 +17,13 @@ interface AuthModalProps {
 }
 
 const AuthModal = ({ open, onOpenChange, view = 'sign_in' }: AuthModalProps) => {
-  const isSignUp = view === 'sign_up';
+  const [currentView, setCurrentView] = useState<'sign_in' | 'sign_up'>(view);
+  
+  useEffect(() => {
+    setCurrentView(view);
+  }, [view]);
+
+  const isSignUp = currentView === 'sign_up';
   
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -29,7 +36,7 @@ const AuthModal = ({ open, onOpenChange, view = 'sign_in' }: AuthModalProps) => 
         </DialogHeader>
         <Auth
           supabaseClient={supabase}
-          view={view}
+          view={currentView}
           appearance={{
             theme: ThemeSupa,
             variables: {
@@ -43,6 +50,16 @@ const AuthModal = ({ open, onOpenChange, view = 'sign_in' }: AuthModalProps) => 
           }}
           providers={[]}
           redirectTo={`${window.location.origin}/`}
+          localization={{
+            variables: {
+              sign_in: {
+                link_text: "Don't have an account? Sign up",
+              },
+              sign_up: {
+                link_text: "Already have an account? Sign in",
+              },
+            },
+          }}
         />
       </DialogContent>
     </Dialog>
