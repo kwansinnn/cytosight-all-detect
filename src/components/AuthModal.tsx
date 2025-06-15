@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 import { supabase } from '@/integrations/supabase/client';
@@ -20,7 +20,138 @@ interface AuthModalProps {
 const AuthModal = ({ open, onOpenChange, view = 'sign_in' }: AuthModalProps) => {
   const [currentView, setCurrentView] = useState<'sign_in' | 'sign_up'>(view);
   const { toast } = useToast();
-  
+  const observerRef = useRef<MutationObserver | null>(null);
+  const cleanupFunctionsRef = useRef<(() => void)[]>([]);
+
+  // Cleanup function to remove all listeners and observers
+  const cleanup = useCallback(() => {
+    cleanupFunctionsRef.current.forEach(fn => fn());
+    cleanupFunctionsRef.current = [];
+    
+    if (observerRef.current) {
+      observerRef.current.disconnect();
+      observerRef.current = null;
+    }
+  }, []);
+
+  // Validate form inputs
+  const validateInputs = useCallback((form: HTMLFormElement) => {
+    const emailInput = form.querySelector('input[type="email"]') as HTMLInputElement;
+    const passwordInput = form.querySelector('input[type="password"]') as HTMLInputElement;
+    
+    const email = emailInput?.value?.trim() || '';
+    const password = passwordInput?.value?.trim() || '';
+    
+    if (!email || !password) {
+      toast({
+        title: "Missing Information",
+        description: "Please enter both email and password",
+        variant: "destructive",
+      });
+      return false;
+    }
+    
+    return true;
+  }, [toast]);
+
+  // Add form validation with retry mechanism
+  const setupFormValidation = useCallback((retryCount = 0) => {
+    const maxRetries = 5;
+    const retryDelay = Math.pow(2, retryCount) * 100; // Exponential backoff
+    
+    const authContainer = document.querySelector('[data-supabase-auth-ui]');
+    if (!authContainer) {
+      if (retryCount < maxRetries) {
+        const timeoutId = setTimeout(() => setupFormValidation(retryCount + 1), retryDelay);
+        cleanupFunctionsRef.current.push(() => clearTimeout(timeoutId));
+      }
+      return;
+    }
+
+    const form = authContainer.querySelector('form') as HTMLFormElement;
+    if (!form) {
+      if (retryCount < maxRetries) {
+        const timeoutId = setTimeout(() => setupFormValidation(retryCount + 1), retryDelay);
+        cleanupFunctionsRef.current.push(() => clearTimeout(timeoutId));
+      }
+      return;
+    }
+
+    // Form submission validation
+    const handleSubmit = (e: Event) => {
+      if (!validateInputs(form)) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
+    // Real-time input validation
+    const handleInputChange = () => {
+      const emailInput = form.querySelector('input[type="email"]') as HTMLInputElement;
+      const passwordInput = form.querySelector('input[type="password"]') as HTMLInputElement;
+      
+      // Clear any existing error states when user starts typing
+      if (emailInput?.value?.trim() && passwordInput?.value?.trim()) {
+        // Remove any error styling if both fields have content
+        emailInput.style.borderColor = '';
+        passwordInput.style.borderColor = '';
+      }
+    };
+
+    // Add event listeners
+    form.addEventListener('submit', handleSubmit, { capture: true });
+    
+    const emailInput = form.querySelector('input[type="email"]');
+    const passwordInput = form.querySelector('input[type="password"]');
+    
+    if (emailInput) {
+      emailInput.addEventListener('input', handleInputChange);
+      cleanupFunctionsRef.current.push(() => emailInput.removeEventListener('input', handleInputChange));
+    }
+    
+    if (passwordInput) {
+      passwordInput.addEventListener('input', handleInputChange);
+      cleanupFunctionsRef.current.push(() => passwordInput.removeEventListener('input', handleInputChange));
+    }
+
+    // Store cleanup function
+    cleanupFunctionsRef.current.push(() => {
+      form.removeEventListener('submit', handleSubmit, { capture: true });
+    });
+  }, [validateInputs]);
+
+  // Set up MutationObserver to detect when Auth UI renders
+  const setupAuthObserver = useCallback(() => {
+    if (!open) return;
+
+    const targetNode = document.body;
+    
+    observerRef.current = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'childList') {
+          mutation.addedNodes.forEach((node) => {
+            if (node.nodeType === Node.ELEMENT_NODE) {
+              const element = node as Element;
+              // Check if Auth UI was added
+              if (element.querySelector?.('[data-supabase-auth-ui]') || 
+                  element.matches?.('[data-supabase-auth-ui]')) {
+                setupFormValidation();
+              }
+            }
+          });
+        }
+      });
+    });
+
+    observerRef.current.observe(targetNode, {
+      childList: true,
+      subtree: true
+    });
+
+    // Also try immediate setup in case the form is already there
+    setTimeout(() => setupFormValidation(), 50);
+  }, [open, setupFormValidation]);
+
   useEffect(() => {
     setCurrentView(view);
   }, [view]);
@@ -30,44 +161,25 @@ const AuthModal = ({ open, onOpenChange, view = 'sign_in' }: AuthModalProps) => 
       if (event === 'SIGNED_IN') {
         onOpenChange(false);
       }
+      
+      // Handle auth errors as fallback
+      if (event === 'SIGNED_OUT' && session === null) {
+        // This might indicate an auth error, but we'll let Supabase handle it
+      }
     });
 
     return () => subscription.unsubscribe();
   }, [onOpenChange]);
 
   useEffect(() => {
-    if (!open) return;
+    if (open) {
+      setupAuthObserver();
+    } else {
+      cleanup();
+    }
 
-    const interceptFormSubmission = () => {
-      const authContainer = document.querySelector('[data-supabase-auth-ui]');
-      if (!authContainer) return;
-
-      const form = authContainer.querySelector('form');
-      if (!form) return;
-
-      const handleSubmit = (e: Event) => {
-        const formData = new FormData(form);
-        const email = formData.get('email') as string;
-        const password = formData.get('password') as string;
-
-        if (!email || !password) {
-          e.preventDefault();
-          toast({
-            title: "Missing Information",
-            description: "Please enter both email and password",
-            variant: "destructive",
-          });
-        }
-      };
-
-      form.addEventListener('submit', handleSubmit);
-      return () => form.removeEventListener('submit', handleSubmit);
-    };
-
-    // Wait for the Auth component to render
-    const timeout = setTimeout(interceptFormSubmission, 100);
-    return () => clearTimeout(timeout);
-  }, [open, currentView, toast]);
+    return cleanup;
+  }, [open, currentView, setupAuthObserver, cleanup]);
 
   const isSignUp = currentView === 'sign_up';
   
