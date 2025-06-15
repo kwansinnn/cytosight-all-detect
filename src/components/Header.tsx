@@ -49,11 +49,11 @@ const Header = () => {
                       <a href="/collaboration" className="text-foreground hover:text-primary transition-colors py-2 px-4 rounded-md hover:bg-accent">
                         Collaboration
                       </a>
-                      <a href="#" className="text-foreground hover:text-primary transition-colors py-2 px-4 rounded-md hover:bg-accent">
-                        Reports
+                      <a href="/history" className="text-foreground hover:text-primary transition-colors py-2 px-4 rounded-md hover:bg-accent">
+                        History
                       </a>
                       <a href="#" className="text-foreground hover:text-primary transition-colors py-2 px-4 rounded-md hover:bg-accent">
-                        History
+                        Reports
                       </a>
                     </>
                   ) : (
@@ -98,6 +98,9 @@ const Header = () => {
                 </a>
                 <a href="/collaboration" className="text-muted-foreground hover:text-foreground transition-colors">
                   Collaboration
+                </a>
+                <a href="/history" className="text-muted-foreground hover:text-foreground transition-colors">
+                  History
                 </a>
                 <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                   Reports
