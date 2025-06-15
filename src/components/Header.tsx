@@ -19,6 +19,7 @@ import {
 const Header = () => {
   const { user, signOut } = useAuth();
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authView, setAuthView] = useState<'sign_in' | 'sign_up'>('sign_in');
 
   const handleSignOut = async () => {
     await signOut();
@@ -139,13 +140,19 @@ const Header = () => {
                 <Button 
                   variant="ghost" 
                   size="sm"
-                  onClick={() => setAuthModalOpen(true)}
+                  onClick={() => {
+                    setAuthView('sign_in');
+                    setAuthModalOpen(true);
+                  }}
                 >
                   Sign In
                 </Button>
                 <Button 
                   size="sm"
-                  onClick={() => setAuthModalOpen(true)}
+                  onClick={() => {
+                    setAuthView('sign_up');
+                    setAuthModalOpen(true);
+                  }}
                 >
                   Get Started
                 </Button>
@@ -158,6 +165,7 @@ const Header = () => {
       <AuthModal 
         open={authModalOpen} 
         onOpenChange={setAuthModalOpen}
+        view={authView}
       />
     </>
   );

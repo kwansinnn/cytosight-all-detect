@@ -12,20 +12,24 @@ import {
 interface AuthModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  view?: 'sign_in' | 'sign_up';
 }
 
-const AuthModal = ({ open, onOpenChange }: AuthModalProps) => {
+const AuthModal = ({ open, onOpenChange, view = 'sign_in' }: AuthModalProps) => {
+  const isSignUp = view === 'sign_up';
+  
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Sign in to CytoSight</DialogTitle>
+          <DialogTitle>{isSignUp ? 'Sign up to CytoSight' : 'Sign in to CytoSight'}</DialogTitle>
           <DialogDescription>
-            Access your personalized cell analysis dashboard
+            {isSignUp ? 'Create your account to start analyzing cell images' : 'Access your personalized cell analysis dashboard'}
           </DialogDescription>
         </DialogHeader>
         <Auth
           supabaseClient={supabase}
+          view={view}
           appearance={{
             theme: ThemeSupa,
             variables: {

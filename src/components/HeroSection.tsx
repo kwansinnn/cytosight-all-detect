@@ -13,6 +13,7 @@ import {
 const HeroSection = () => {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [demoModalOpen, setDemoModalOpen] = useState(false);
+  const [authView, setAuthView] = useState<'sign_in' | 'sign_up'>('sign_in');
 
   return (
     <>
@@ -27,7 +28,10 @@ const HeroSection = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <Button size="lg" className="px-8" onClick={() => setAuthModalOpen(true)}>
+            <Button size="lg" className="px-8" onClick={() => {
+              setAuthView('sign_up');
+              setAuthModalOpen(true);
+            }}>
               Start Analysis
             </Button>
             <Button variant="outline" size="lg" className="px-8" onClick={() => setDemoModalOpen(true)}>
@@ -68,7 +72,7 @@ const HeroSection = () => {
         </div>
       </div>
     </section>
-    <AuthModal open={authModalOpen} onOpenChange={setAuthModalOpen} />
+    <AuthModal open={authModalOpen} onOpenChange={setAuthModalOpen} view={authView} />
     
     <Dialog open={demoModalOpen} onOpenChange={setDemoModalOpen}>
       <DialogContent className="max-w-4xl">
