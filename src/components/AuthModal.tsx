@@ -264,10 +264,10 @@ const AuthModal = ({ open, onOpenChange, view = 'sign_in' }: AuthModalProps) => 
           localization={{
             variables: {
               sign_in: {
-                link_text: "",
+                link_text: "Don't have an account? Sign up",
               },
               sign_up: {
-                link_text: "Already have an account? Sign in",
+                link_text: "",
               },
             },
           }}
