@@ -62,7 +62,7 @@ const Header = () => {
                         About
                       </a>
                       <a href="#" className="text-foreground hover:text-primary transition-colors py-2 px-4 rounded-md hover:bg-accent">
-                        Contact
+                        Contact Us
                       </a>
                     </>
                   )}
@@ -109,7 +109,7 @@ const Header = () => {
                   About
                 </a>
                 <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Contact
+                  Contact Us
                 </a>
               </>
             )}
