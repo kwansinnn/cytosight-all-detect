@@ -9,6 +9,7 @@ interface Upload {
   cell_count?: number;
   cell_types?: string[];
   confidence_score?: number;
+  analysis_result?: any;
   created_at: string;
 }
 
