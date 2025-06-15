@@ -116,16 +116,16 @@ const Analysis = () => {
   return (
     <DashboardLayout>
       <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Cell Analysis Dashboard</h1>
-            <p className="text-muted-foreground mt-2">
+            <h1 className="text-2xl md:text-3xl font-bold text-foreground">Cell Analysis Dashboard</h1>
+            <p className="text-muted-foreground mt-2 text-sm md:text-base">
               Comprehensive analysis of your microscopy images
             </p>
           </div>
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
             <Select value={selectedTimeRange} onValueChange={setSelectedTimeRange}>
-              <SelectTrigger className="w-32">
+              <SelectTrigger className="w-full sm:w-32">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -134,9 +134,10 @@ const Analysis = () => {
                 <SelectItem value="7d">7 Days</SelectItem>
               </SelectContent>
             </Select>
-            <Button variant="outline">
+            <Button variant="outline" className="w-full sm:w-auto">
               <Download className="h-4 w-4 mr-2" />
-              Export Report
+              <span className="hidden sm:inline">Export Report</span>
+              <span className="sm:hidden">Export</span>
             </Button>
           </div>
         </div>
@@ -200,7 +201,7 @@ const Analysis = () => {
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 md:gap-6">
               {/* Classification Distribution */}
               <Card>
                 <CardHeader>
@@ -271,9 +272,9 @@ const Analysis = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="flex gap-4">
+                  <div className="flex flex-col sm:flex-row gap-4">
                     <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-                      <SelectTrigger className="w-48">
+                      <SelectTrigger className="w-full sm:w-48">
                         <Filter className="h-4 w-4 mr-2" />
                         <SelectValue placeholder="Filter by status" />
                       </SelectTrigger>
@@ -286,25 +287,30 @@ const Analysis = () => {
                     </Select>
                   </div>
                   
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Filename</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Classification</TableHead>
-                        <TableHead>Cell Count</TableHead>
-                        <TableHead>Confidence</TableHead>
-                        <TableHead>Date</TableHead>
-                      </TableRow>
-                    </TableHeader>
+                  <div className="overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="min-w-[150px]">Filename</TableHead>
+                          <TableHead className="min-w-[100px]">Status</TableHead>
+                          <TableHead className="min-w-[120px]">Classification</TableHead>
+                          <TableHead className="min-w-[100px] hidden md:table-cell">Cell Count</TableHead>
+                          <TableHead className="min-w-[100px] hidden sm:table-cell">Confidence</TableHead>
+                          <TableHead className="min-w-[100px]">Date</TableHead>
+                        </TableRow>
+                      </TableHeader>
                     <TableBody>
                       {uploads.map((upload) => (
                         <TableRow key={upload.id}>
-                          <TableCell className="font-medium">{upload.filename}</TableCell>
+                          <TableCell className="font-medium">
+                            <div className="truncate max-w-[150px]" title={upload.filename}>
+                              {upload.filename}
+                            </div>
+                          </TableCell>
                           <TableCell>
                             <div className="flex items-center gap-2">
                               {getStatusIcon(upload.status)}
-                              <span className="capitalize">{upload.status}</span>
+                              <span className="capitalize text-xs sm:text-sm">{upload.status}</span>
                             </div>
                           </TableCell>
                           <TableCell>
@@ -313,22 +319,23 @@ const Analysis = () => {
                               : '-'
                             }
                           </TableCell>
-                          <TableCell>
+                          <TableCell className="hidden md:table-cell">
                             {upload.cell_count ? upload.cell_count.toLocaleString() : '-'}
                           </TableCell>
-                          <TableCell>
+                          <TableCell className="hidden sm:table-cell">
                             {upload.confidence_score 
                               ? `${Math.round(upload.confidence_score * 100)}%`
                               : '-'
                             }
                           </TableCell>
-                          <TableCell>
+                          <TableCell className="text-xs sm:text-sm">
                             {new Date(upload.created_at).toLocaleDateString()}
                           </TableCell>
                         </TableRow>
                       ))}
-                    </TableBody>
-                  </Table>
+                      </TableBody>
+                    </Table>
+                  </div>
                 </div>
               </CardContent>
             </Card>

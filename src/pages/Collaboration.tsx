@@ -39,14 +39,14 @@ const Collaboration = () => {
   return (
     <DashboardLayout>
       <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Team Collaboration</h1>
-            <p className="text-muted-foreground mt-2">
+            <h1 className="text-2xl md:text-3xl font-bold text-foreground">Team Collaboration</h1>
+            <p className="text-muted-foreground mt-2 text-sm md:text-base">
               Share case insights, discuss analysis results, and collaborate with your team
             </p>
           </div>
-          <Button onClick={() => setShowCreateDialog(true)}>
+          <Button onClick={() => setShowCreateDialog(true)} className="w-full sm:w-auto">
             <Plus className="h-4 w-4 mr-2" />
             New Collaboration
           </Button>
