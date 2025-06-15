@@ -61,7 +61,7 @@ const Header = () => {
                       <a href="/about" className="text-foreground hover:text-primary transition-colors py-2 px-4 rounded-md hover:bg-accent">
                         About
                       </a>
-                      <a href="#" className="text-foreground hover:text-primary transition-colors py-2 px-4 rounded-md hover:bg-accent">
+                      <a href="/contact" className="text-foreground hover:text-primary transition-colors py-2 px-4 rounded-md hover:bg-accent">
                         Contact Us
                       </a>
                     </>
@@ -108,7 +108,7 @@ const Header = () => {
                 <a href="/about" className="text-muted-foreground hover:text-foreground transition-colors">
                   About
                 </a>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="/contact" className="text-muted-foreground hover:text-foreground transition-colors">
                   Contact Us
                 </a>
               </>

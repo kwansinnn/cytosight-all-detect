@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import Collaboration from "./pages/Collaboration";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
+import ContactUs from "./pages/ContactUs";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<ContactUs />} />
             <Route 
               path="/dashboard" 
               element={
