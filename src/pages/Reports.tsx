@@ -216,16 +216,16 @@ const Reports = () => {
         <div className="flex items-center gap-3 mb-8">
           <FileText className="h-8 w-8 text-primary" />
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Analysis Reports</h1>
-            <p className="text-muted-foreground mt-1">
+            <h1 className="text-2xl md:text-3xl font-bold text-foreground">Analysis Reports</h1>
+            <p className="text-muted-foreground mt-1 text-sm md:text-base">
               Generate professional reports for your cell analysis results
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 md:gap-8">
           {/* Report Configuration */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="xl:col-span-2 space-y-6">
             {/* Selection and Statistics */}
             <Card>
               <CardHeader>
@@ -271,7 +271,7 @@ const Reports = () => {
                 {/* Content Options */}
                 <div>
                   <label className="text-sm font-medium text-foreground mb-3 block">Include in Report</label>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     <div className="flex items-center space-x-2">
                       <Checkbox
                         id="summary"
@@ -370,19 +370,19 @@ const Reports = () => {
                     {completedUploads.map((upload) => (
                       <div
                         key={upload.id}
-                        className="flex items-center justify-between p-3 border border-border rounded-lg hover:bg-muted/50 transition-colors"
+                        className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 border border-border rounded-lg hover:bg-muted/50 transition-colors gap-3"
                       >
-                        <div className="flex items-center space-x-3">
+                        <div className="flex items-center space-x-3 min-w-0 flex-1">
                           <Checkbox
                             checked={selectedUploads.includes(upload.id)}
                             onCheckedChange={() => handleSelectUpload(upload.id)}
                           />
-                          <div className="flex items-center gap-2">
-                            <FileImage className="h-4 w-4 text-muted-foreground" />
-                            <span className="font-medium text-foreground">{upload.filename}</span>
+                          <div className="flex items-center gap-2 min-w-0">
+                            <FileImage className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                            <span className="font-medium text-foreground truncate">{upload.filename}</span>
                           </div>
                         </div>
-                        <div className="flex items-center gap-3">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 w-full sm:w-auto">
                           {getClassificationBadge(upload.analysis_result)}
                           <span className="text-sm text-muted-foreground">
                             {new Date(upload.created_at).toLocaleDateString()}
