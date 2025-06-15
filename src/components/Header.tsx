@@ -71,7 +71,7 @@ const Header = () => {
             </Sheet>
             <div 
               className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity"
-              onClick={() => window.location.href = '/'}
+              onClick={() => window.location.href = user ? '/dashboard' : '/'}
             >
               <div className="w-8 h-8 rounded-lg overflow-hidden">
                 <img 
