@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import Analysis from "./pages/Analysis";
 import History from "./pages/History";
+import Reports from "./pages/Reports";
 import Collaboration from "./pages/Collaboration";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
@@ -49,6 +50,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <History />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/reports" 
+              element={
+                <ProtectedRoute>
+                  <Reports />
                 </ProtectedRoute>
               } 
             />
